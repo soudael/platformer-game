@@ -1,0 +1,49 @@
+# --- CMake ---
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+install_manifest.txt
+_CPack_Packages/
+pack_dlls/
+
+# --- Makefile ---
+Makefile
+
+# --- Compiled Files ---
+*.o
+*.obj
+*.out
+
+# --- Executable ---
+*.exe
+game
+main
+
+# --- Dynamic Libraries ---
+*.dll
+*.so
+*.dylib
+!dependencies/lib/*.dll
+
+# --- Build Folders ---
+build/
+bin/
+obj/
+x64/
+Debug/
+Release/
+
+# --- IDEs and Editors ---
+.vscode/
+.vs/
+.idea/
+*.swp
+*.user
+
+# --- Temporary Files ---
+*.log
+*.tmp
+
+# --- System ---
+.DS_Store
+Thumbs.db
