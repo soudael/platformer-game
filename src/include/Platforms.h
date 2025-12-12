@@ -6,7 +6,7 @@ class Platforms
 	public:
 		Platforms(float x, float y, float w, float h);
 
-		void render(SDL_Renderer* renderer);
+		void render(SDL_Renderer* renderer, float cameraXOffset, float cameraYOffset);
 
 		const SDL_FRect& getPlatformRectObj() const { return platformRect; }
 	private:

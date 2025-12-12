@@ -39,12 +39,13 @@ add_custom_command(TARGET game POST_BUILD
 )
 
 # Installation configuration (files for the final folder)
-install(TARGETS game DESTINATION bin)
-install(FILES "${CMAKE_SOURCE_DIR}/pack_dlls/SDL3.dll" DESTINATION bin)
-install(FILES "${CMAKE_SOURCE_DIR}/pack_dlls/libwinpthread-1.dll" DESTINATION bin)
+install(TARGETS game DESTINATION .)
+install(FILES "${CMAKE_SOURCE_DIR}/pack_dlls/SDL3.dll" DESTINATION .)
+install(FILES "${CMAKE_SOURCE_DIR}/pack_dlls/libwinpthread-1.dll" DESTINATION .)
 
 # Auto-generate .ZIP package
 set(CPACK_GENERATOR "ZIP")
+set(CPACK_PACKAGE_INSTALL_DIRECTORY "${PROJECT_NAME}-v${PROJECT_VERSION}")
 set(CPACK_PACKAGE_FILE_NAME "${PROJECT_NAME}-v${PROJECT_VERSION}")
 set(CPACK_PACKAGE_DIRECTORY ${CMAKE_SOURCE_DIR})
 include(CPack)

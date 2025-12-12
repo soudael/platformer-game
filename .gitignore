@@ -15,6 +15,7 @@ Makefile
 *.out
 
 # --- Executable ---
+*.zip
 *.exe
 game
 main
