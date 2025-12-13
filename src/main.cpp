@@ -11,6 +11,11 @@ int main(int argc, char *argv[])
     // Objects
     Player player(WIDTH/2, 100.0f);
     SDL_FRect camera = { 0, 0, WIDTH, HEIGHT };
+    SDL_Texture* playerIdle = IMG_LoadTexture(renderer.getRendererObj(), "assets/playerIdle.png");
+    if (playerIdle == NULL) {
+        SDL_Log("IMG_LoadTexture falhou: %s", SDL_GetError());
+        return EXIT_FAILURE;
+    }
 
     std::vector<Platforms> platforms;
     platforms.emplace_back( 0.0f, HEIGHT - 75.0f, WIDTH, 75.0f ); // Bottom
@@ -65,11 +70,17 @@ int main(int argc, char *argv[])
             platform.render(renderer.getRendererObj(), camera.x, camera.y);
         }
         player.render(renderer.getRendererObj(), camera.x, camera.y); // Player
+        SDL_FRect playerIdleSpriteSRC
+        {
+            0, 0, 44, 97
+        };
+        SDL_RenderTexture(renderer.getRendererObj(), playerIdle, &playerIdleSpriteSRC, nullptr);
 
         SDL_RenderPresent(renderer.getRendererObj()); // Rendering Update
     }
 
     // // Destroy -----------------------------------------------------------------
+    SDL_DestroyTexture(playerIdle);
     SDL_DestroyRenderer(renderer.getRendererObj());
     SDL_DestroyWindow(window.getWindowObj());
     SDL_Quit();
