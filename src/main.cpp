@@ -9,20 +9,14 @@ int main(int argc, char *argv[])
     SDL_SetRenderLogicalPresentation(renderer.getRendererObj(), WIDTH, HEIGHT, SDL_LOGICAL_PRESENTATION_LETTERBOX);
 
     // Objects
-    Player player(WIDTH/2, 100.0f);
+    Player player(WIDTH/2, 0.0f);
+    player.loadPlayerTexture(renderer.getRendererObj());
+    SDL_SetTextureScaleMode(player.playerIdleSprite, SDL_SCALEMODE_NEAREST);
+
     SDL_FRect camera = { 0, 0, WIDTH, HEIGHT };
-    SDL_Texture* playerIdle = IMG_LoadTexture(renderer.getRendererObj(), "assets/playerIdle.png");
-    if (playerIdle == NULL) {
-        SDL_Log("IMG_LoadTexture falhou: %s", SDL_GetError());
-        return EXIT_FAILURE;
-    }
 
     std::vector<Platforms> platforms;
-    platforms.emplace_back( 0.0f, HEIGHT - 75.0f, WIDTH, 75.0f ); // Bottom
-    platforms.emplace_back( 0.0f, 0.0f, WIDTH, 25.0f ); // Up
-    platforms.emplace_back( 0.0f, 0.0f, 25.0f, HEIGHT); // Left
-    platforms.emplace_back( (WIDTH)-25.0f, 0.0f, 25.0f, HEIGHT); // Right
-    platforms.emplace_back( (WIDTH)/4, (HEIGHT)/2, (WIDTH)/2, 75.0f ); // Middle
+    platforms.emplace_back( 0.0f - (WIDTH/2), HEIGHT - (HEIGHT/4), WIDTH*2, 25.0f );
 
     // START -------------------------------------------------------------------
     SDL_Event globalEvent;
@@ -70,17 +64,12 @@ int main(int argc, char *argv[])
             platform.render(renderer.getRendererObj(), camera.x, camera.y);
         }
         player.render(renderer.getRendererObj(), camera.x, camera.y); // Player
-        SDL_FRect playerIdleSpriteSRC
-        {
-            0, 0, 44, 97
-        };
-        SDL_RenderTexture(renderer.getRendererObj(), playerIdle, &playerIdleSpriteSRC, nullptr);
-
+        
         SDL_RenderPresent(renderer.getRendererObj()); // Rendering Update
     }
 
     // // Destroy -----------------------------------------------------------------
-    SDL_DestroyTexture(playerIdle);
+    SDL_DestroyTexture(player.playerIdleSprite);
     SDL_DestroyRenderer(renderer.getRendererObj());
     SDL_DestroyWindow(window.getWindowObj());
     SDL_Quit();

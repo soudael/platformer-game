@@ -1,6 +1,6 @@
 #pragma once
 
-float WIDTH = 800.0f, HEIGHT = 600.0f;
+float WIDTH = 480.0f, HEIGHT = 270.0f;
 
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_image.h>

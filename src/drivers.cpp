@@ -7,5 +7,4 @@ void callVideoDrivers()
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, 
 			"Error","Failed to initialize video drivers.", nullptr);
 	}
-	
 }

@@ -1,7 +1,7 @@
 all:
 	cmake --build build
 run:
-	cd build && ./game.exe
+	./build/game.exe
 set:
 	cmake -S . -B build \
 		-DSDL3_DIR="dependencies/lib/cmake/SDL3" \

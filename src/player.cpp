@@ -4,12 +4,24 @@ Player::Player(float x, float y)
 {
     playerRect.x = x;
     playerRect.y = y;
-    playerRect.w = 50.0f;
-    playerRect.h = 50.0f;
+    playerRect.w = 44.0f;
+    playerRect.h = 97.0f;
 	playerXSpeed = 0.0f;
     playerYSpeed = 0.0f;
     onGround = false;
 	coyoteTimer = 0.0f;
+}
+
+// Player Sprite Texture
+void Player::loadPlayerTexture(SDL_Renderer* renderer)
+{
+    playerIdleSprite = IMG_LoadTexture(renderer, "assets/playerIdle.png");
+    
+    if (!playerIdleSprite)
+	{
+        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, 
+			"Error","Failed to load player texture.", nullptr);
+    }
 }
 
 // Gravity and Collision Physics
@@ -23,7 +35,7 @@ void Player::update(float deltaTime, const std::vector<Platforms>& platforms)
         coyoteTimer -= deltaTime;
     }
 
-	// Horizontal Movement & Jump
+	// Movement & Jump
     const bool *keyboardKey = SDL_GetKeyboardState(NULL);
 	playerXSpeed = 0.0f;
 	if (keyboardKey[SDL_SCANCODE_LEFT]) playerXSpeed -= 1.0f;
@@ -40,8 +52,10 @@ void Player::update(float deltaTime, const std::vector<Platforms>& platforms)
 	if (playerXSpeed != 0) {
 		playerRect.x += MOVE_SPEED * playerXSpeed * deltaTime;
     }
+	if (playerXSpeed > 0) { spriteNeedsFlip = true; }
+	if (playerXSpeed < 0) { spriteNeedsFlip = false; }
 
-	// Horizontal Collision Fix
+	// Horizontal Collision
     for (const auto& platformObj : platforms) {
 		SDL_FRect platform = platformObj.getPlatformRectObj();
 
@@ -63,7 +77,7 @@ void Player::update(float deltaTime, const std::vector<Platforms>& platforms)
     playerRect.y += playerYSpeed * deltaTime;
     onGround = false;
 
-    // Vertical Collision Fix
+    // Vertical Collision
 	for (const auto& platformObj : platforms) {
 		SDL_FRect platform = platformObj.getPlatformRectObj();
 
@@ -88,10 +102,19 @@ void Player::update(float deltaTime, const std::vector<Platforms>& platforms)
 
 void Player::render(SDL_Renderer* renderer, float cameraXOffset, float cameraYOffset)
 {
-	SDL_FRect ghostPlayer = playerRect;
-	ghostPlayer.x -= cameraXOffset;
-	ghostPlayer.y -= cameraYOffset;
+	// Camera follows player
+    SDL_FRect activePlayerRect = playerRect;
+    activePlayerRect.x -= cameraXOffset;
+    activePlayerRect.y -= cameraYOffset;
 
-    SDL_SetRenderDrawColor(renderer, 210, 210, 210, 255);
-    SDL_RenderFillRect(renderer, &ghostPlayer);
+	SDL_FRect playerSourceRect{
+		0.0f, 0.0f, 44.0f, 97.0f
+	};
+
+	SDL_RenderTextureRotated(renderer, playerIdleSprite, &playerSourceRect, &activePlayerRect, 0, nullptr,
+		(spriteNeedsFlip) ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);
+    
+	// Hitbox
+    // SDL_SetRenderDrawColor(renderer, 255, 0, 0, 10);
+    // SDL_RenderRect(renderer, &activePlayerRect);
 }
