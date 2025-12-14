@@ -1,6 +1,7 @@
 #pragma once
 
 float WIDTH = 480.0f, HEIGHT = 270.0f;
+float SCREEN_WIDTH = 640.0f, SCREEN_HEIGHT = 360.0f;
 
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_image.h>

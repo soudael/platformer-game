@@ -26,6 +26,11 @@ target_link_libraries(game PRIVATE
     -mwindows
 )
 
+# GCC Flags
+set_target_properties(game PROPERTIES
+    LINK_FLAGS "-static-libgcc -static-libstdc++"
+)
+
 # Auto-copy DLLs to build folder for quick testing
 add_custom_command(TARGET game POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
@@ -40,6 +45,7 @@ install(TARGETS game DESTINATION .)
 install(FILES "${CMAKE_SOURCE_DIR}/pack_dlls/SDL3.dll" DESTINATION .)
 install(FILES "${CMAKE_SOURCE_DIR}/pack_dlls/libwinpthread-1.dll" DESTINATION .)
 install(FILES "${CMAKE_SOURCE_DIR}/pack_dlls/SDL3_image.dll" DESTINATION .)
+install(DIRECTORY "${CMAKE_SOURCE_DIR}/assets" DESTINATION .)
 
 # Auto-generate .ZIP package
 set(CPACK_GENERATOR "ZIP")

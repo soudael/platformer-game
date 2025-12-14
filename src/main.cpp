@@ -6,17 +6,21 @@ int main(int argc, char *argv[])
     callVideoDrivers();
     Window window("Platform Game", WIDTH, HEIGHT);
     Renderer renderer(window.getWindowObj());
-    SDL_SetRenderLogicalPresentation(renderer.getRendererObj(), WIDTH, HEIGHT, SDL_LOGICAL_PRESENTATION_LETTERBOX);
+    SDL_SetRenderLogicalPresentation(renderer.getRendererObj(), SCREEN_WIDTH, SCREEN_HEIGHT, SDL_LOGICAL_PRESENTATION_LETTERBOX);
 
     // Objects
     Player player(WIDTH/2, 0.0f);
     player.loadPlayerTexture(renderer.getRendererObj());
     SDL_SetTextureScaleMode(player.playerIdleSprite, SDL_SCALEMODE_NEAREST);
 
-    SDL_FRect camera = { 0, 0, WIDTH, HEIGHT };
+    SDL_FRect camera = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 
     std::vector<Platforms> platforms;
-    platforms.emplace_back( 0.0f - (WIDTH/2), HEIGHT - (HEIGHT/4), WIDTH*2, 25.0f );
+    platforms.emplace_back( 0.0f - WIDTH*3, HEIGHT - 20.0f, WIDTH*7, 20.0f ); // Bottom
+    platforms.emplace_back( 0.0f + WIDTH/4, 0.0f + HEIGHT/2.5, WIDTH/2, 20.0f ); // Middle
+    platforms.emplace_back( 0.0f - WIDTH/2, 0.0f, WIDTH/2, 20.0f ); // Left
+    platforms.emplace_back( WIDTH + WIDTH/2, 0.0f, WIDTH/2, 20.0f ); // Right
+    platforms.emplace_back( WIDTH + 20.0f, HEIGHT - 120.0f, 100.0f, 100.0f ); // Cube
 
     // START -------------------------------------------------------------------
     SDL_Event globalEvent;
@@ -35,8 +39,8 @@ int main(int argc, char *argv[])
         deltaTime = (currentTime - lastTime) / 1'000'000'000.0f;
         lastTime = currentTime;
 
-        camera.x = player.getPlayerRectObj().x + 25.0f - WIDTH/2;
-        camera.y = player.getPlayerRectObj().y + 25.0f - HEIGHT/2;
+        camera.x = player.getPlayerRectObj().x + 25.0f - SCREEN_WIDTH/2;
+        camera.y = player.getPlayerRectObj().y + 25.0f - SCREEN_HEIGHT/2;
 
         // Global Events
         while (SDL_PollEvent(&globalEvent))

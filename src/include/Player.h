@@ -27,6 +27,6 @@ class Player
 
 		const float COYOTE_TIME_DURATION = 0.1f;
 		const float MOVE_SPEED = 300.0f;
-		const float GRAVITY = 1000.0f;
-		const float JUMP_FORCE = -500.0f;
+		const float GRAVITY = 1250.0f;
+		const float JUMP_FORCE = -550.0f;
 };
